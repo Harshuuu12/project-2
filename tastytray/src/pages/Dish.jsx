@@ -77,6 +77,7 @@ const Dish = () => {
               </button>
               <button
                 onClick={() => {
+                  console.log("Feedback submitted:", feedback);
                   setShowFeedback(false);
                   setFeedback('');
                   alert('✅ Feedback submitted!');
@@ -90,18 +91,18 @@ const Dish = () => {
         </div>
       )}
 
-      {/* Main Dish Section */}
+      {/* Dish Section */}
       <section className="py-10 px-4 sm:px-8 lg:px-20 flex flex-col md:flex-row gap-10 items-start bg-white">
         <div className="w-full md:w-1/2">
           <img
-            src={dish.images?.[0] || dish.image}
-            alt={dish.name}
+            src={dish.images?.[0] || dish.image || '/placeholder.jpg'}
+            alt={dish.name || 'Dish Image'}
             className="w-full h-96 object-cover rounded-2xl shadow-lg border"
           />
         </div>
 
         <div className="flex-1">
-          <h1 className="text-4xl font-bold text-green-700 mb-2">{dish.name}</h1>
+          <h1 className="text-4xl font-bold text-green-700 mb-2">{dish.name || 'Unnamed Dish'}</h1>
 
           <div className="flex items-center mb-4">
             {renderRatingStars(dish.rating || 4.2)}
@@ -115,7 +116,7 @@ const Dish = () => {
           </p>
 
           <div className="text-2xl font-bold text-green-600 mb-4">
-            ₹{dish.price}
+            ₹{dish.price ?? 'N/A'}
           </div>
 
           <button
@@ -191,8 +192,8 @@ const Dish = () => {
                 className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition"
               >
                 <img
-                  src={sug.images?.[0] || sug.image}
-                  alt={sug.name}
+                  src={sug.images?.[0] || sug.image || '/placeholder.jpg'}
+                  alt={sug.name || 'Suggested Dish'}
                   className="h-40 w-full object-cover"
                 />
                 <div className="p-4">

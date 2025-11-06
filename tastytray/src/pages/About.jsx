@@ -10,7 +10,7 @@ const About = () => {
       <div className="relative h-[400px] bg-cover bg-center overflow-hidden">
         <img
           src={assets.about}
-          alt="About TastyTray"
+          alt="About FreshMart"
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-black opacity-30"></div>

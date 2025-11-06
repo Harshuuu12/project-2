@@ -56,16 +56,23 @@ const App = () => {
           {/* ---------- Admin Login ---------- */}
           <Route path="/admin-login" element={<AdminLogin />} />
 
-          {/* ---------- Admin Routes (Protected) ---------- */}
+          {/* ---------- Admin Routes ---------- */}
           <Route
             path="/admin"
             element={isAdmin ? <AdminPanel /> : <Navigate to="/admin-login" />}
-          >
-            <Route index element={<Navigate to="dishes" />} />
-            <Route path="dishes" element={<DishList />} />
-            <Route path="orders" element={<OrderList />} />
-            <Route path="add-dish" element={<AddDish />} />
-          </Route>
+          />
+          <Route
+            path="/admin/dishes"
+            element={isAdmin ? <DishList /> : <Navigate to="/admin-login" />}
+          />
+          <Route
+            path="/admin/orders"
+            element={isAdmin ? <OrderList /> : <Navigate to="/admin-login" />}
+          />
+          <Route
+            path="/admin/add-dish"
+            element={isAdmin ? <AddDish /> : <Navigate to="/admin-login" />}
+          />
 
           {/* ---------- Fallback ---------- */}
           <Route path="*" element={<Navigate to="/" />} />

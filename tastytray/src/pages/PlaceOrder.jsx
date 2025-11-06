@@ -3,7 +3,10 @@ import { ShopContext } from '../context/Shopcontext';
 import { useNavigate } from 'react-router-dom';
 
 const PlaceOrder = () => {
-  const { cartItems, products, addOrder, delivery_fee, currency } = useContext(ShopContext);
+  const { cartItems, products, addOrder } = useContext(ShopContext);
+
+  const DELIVERY_FEE = 15; // Fixed delivery fee in ₹
+
   const [form, setForm] = useState({
     name: '',
     address: '',
@@ -17,10 +20,12 @@ const PlaceOrder = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const totalAmount = Object.entries(cartItems).reduce((total, [id, qty]) => {
+  const subtotal = Object.entries(cartItems).reduce((total, [id, qty]) => {
     const product = products.find(p => p._id === id);
     return product ? total + product.price * qty : total;
   }, 0);
+
+  const totalAmount = subtotal + DELIVERY_FEE;
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -40,10 +45,7 @@ const PlaceOrder = () => {
       return;
     }
 
-    if (
-      paymentMethod === 'bank' &&
-      (!bankHolder || !bankName || !transactionId)
-    ) {
+    if (paymentMethod === 'bank' && (!bankHolder || !bankName || !transactionId)) {
       setError('🚫 Please fill all bank details');
       return;
     }
@@ -57,21 +59,20 @@ const PlaceOrder = () => {
       bankHolder: paymentMethod === 'bank' ? bankHolder : '',
       bankName: paymentMethod === 'bank' ? bankName : '',
       transactionId: paymentMethod === 'bank' ? transactionId : '',
-      total: totalAmount + parseInt(delivery_fee),
+      total: totalAmount,
     };
 
-    addOrder(cartItems, orderData, orderData.total);
+    addOrder(cartItems, orderData, totalAmount);
     navigate('/orders');
   };
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4 flex items-start justify-center">
       <div className="w-full max-w-6xl bg-white shadow-2xl rounded-3xl p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-
+        
         {/* Left: Delivery Details */}
         <div>
           <h2 className="text-2xl font-bold text-green-700 mb-6">Delivery Details</h2>
-
           <input
             type="text"
             name="name"
@@ -125,7 +126,6 @@ const PlaceOrder = () => {
               ))}
             </div>
 
-            {/* UPI Input */}
             {paymentMethod === 'upi' && (
               <input
                 type="text"
@@ -137,7 +137,6 @@ const PlaceOrder = () => {
               />
             )}
 
-            {/* Bank Transfer Inputs */}
             {paymentMethod === 'bank' && (
               <div className="mt-4 space-y-4">
                 <input
@@ -172,15 +171,15 @@ const PlaceOrder = () => {
           <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 shadow-md mb-6">
             <div className="flex justify-between text-gray-700 font-medium mb-2">
               <span>Subtotal:</span>
-              <span>{currency}{totalAmount.toFixed(2)}</span>
+              <span>₹{subtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-gray-700 font-medium mb-2">
               <span>Delivery Fee:</span>
-              <span>{currency}{parseInt(delivery_fee).toFixed(2)}</span>
+              <span>₹{DELIVERY_FEE.toFixed(2)}</span>
             </div>
             <div className="flex justify-between border-t border-gray-200 pt-2 text-lg text-green-700 font-bold">
               <span>Total:</span>
-              <span>{currency}{(totalAmount + parseInt(delivery_fee)).toFixed(2)}</span>
+              <span>₹{totalAmount.toFixed(2)}</span>
             </div>
           </div>
 

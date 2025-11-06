@@ -4,7 +4,7 @@ import DishCard from './DishCard';
 
 const BestSeller = () => {
   const { products } = useContext(ShopContext);
-  const bestSellers = products.filter((p) => p.bestseller === true).slice(0, 4);
+  const bestSellers = products.filter((p) => p.bestseller).slice(0, 4);
 
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-12 bg-yellow-50">
@@ -14,7 +14,6 @@ const BestSeller = () => {
           Our most-loved dishes by customers. Order your favorite now!
         </p>
       </div>
-
       {bestSellers.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {bestSellers.map((dish) => (

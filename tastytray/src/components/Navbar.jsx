@@ -45,11 +45,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-green-600 shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
         {/* Logo */}
-        <Link to="/" className="text-2xl font-extrabold text-green-600 tracking-wide">
-          TastyTray 🍽️
+        <Link to="/" className="text-2xl font-extrabold text-white tracking-wide">
+          FreshMart 🍽️
         </Link>
 
         {/* Search */}
@@ -63,7 +63,7 @@ const Navbar = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search for dishes..."
-                className="w-full pl-10 pr-4 py-2 text-sm border rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+                className="w-full pl-10 pr-4 py-2 text-sm border rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-green-300"
                 onFocus={() => searchTerm && setShowSuggestions(true)}
                 onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
               />
@@ -85,16 +85,16 @@ const Navbar = () => {
         </form>
 
         {/* Nav Links + Cart + Profile */}
-        <div className="flex items-center gap-4 sm:gap-6 text-sm sm:text-base relative">
+        <div className="flex items-center gap-4 sm:gap-6 text-sm sm:text-base relative text-white">
           {['Home', 'Menu', 'About', 'Contact'].map((name) => (
             <Link
               key={name}
               to={`/${name === 'Home' ? '' : name.toLowerCase()}`}
-              className={`hover:text-green-600 ${
+              className={`hover:text-yellow-300 ${
                 location.pathname === `/${name.toLowerCase()}` ||
                 (name === 'Home' && location.pathname === '/')
-                  ? 'text-green-700 font-semibold underline underline-offset-4'
-                  : 'text-gray-700'
+                  ? 'underline underline-offset-4 font-semibold text-yellow-200'
+                  : ''
               }`}
             >
               {name}
@@ -104,7 +104,7 @@ const Navbar = () => {
           {/* Cart */}
           <Link
             to="/cart"
-            className="relative text-xl text-gray-700 hover:text-green-600"
+            className="relative text-xl hover:text-yellow-300"
             aria-label="View cart"
           >
             🛒
@@ -119,7 +119,7 @@ const Navbar = () => {
           <div className="relative">
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="text-xl text-gray-700 hover:text-green-600 focus:outline-none"
+              className="text-xl hover:text-yellow-300 focus:outline-none"
               aria-label="Profile"
             >
               👤
@@ -133,13 +133,13 @@ const Navbar = () => {
                   to="/login"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-green-100"
                 >
-                   Login
+                  Login
                 </Link>
                 <Link
                   to="/signup"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-green-100"
                 >
-                   Sign Up
+                  Sign Up
                 </Link>
               </div>
             )}
